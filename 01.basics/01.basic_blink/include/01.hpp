@@ -1,16 +1,13 @@
 #ifndef BASICS_01_BASIC_BLINK_01_HPP
 
-//Avoid duplicated includes
-#define BASICS_01_BASIC_BLINK_01_HPP
+#pragma once
 
-/* The below "32" really depends on how you wire your LED to which Digital pin on ESP32. You can change it to any other Digital pin you want, just make sure to update the wiring accordingly. 
-
-However, please refer to your specific ESP32 board's pinout diagram to ensure you are using a valid output-able ("writable") GPIO pin for the LED. 
-
-And if you prefer to use the built-in LED on the ESP32 board, you can set ledPin to the corresponding pin number for the built-in LED (often GPIO "2" or GPIO "5", but it can vary based on the specific ESP32 board model).
+/* The pin number 32 depends on how you wire your LED to a digital GPIO pin on the ESP32.
+   You can change it to any valid output-capable GPIO pin, as long as you update the wiring accordingly.
+   Refer to your specific ESP32 board's pinout diagram to confirm the pin supports digital output.
+   If you want to use the onboard LED, set ledPin to the board's built-in LED pin number (often GPIO 2 or GPIO 5).
 */
-const int ledPin = 32; 
-
-const int delayTime = 300; // Delay time in milliseconds (1000 ms = 1 second)
+constexpr int ledPin = 2;
+constexpr int delayTime = 300; // Delay time in milliseconds (1000 ms = 1 second)
 
 #endif
