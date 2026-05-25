@@ -1,25 +1,29 @@
 #include <Arduino.h>
 
-constexpr int ledPin=32;
-int brightness = 0;    // how bright the LED is
-int fadeAmount = 5;    // how many points to fade the LED by
+constexpr int ledPin = 32;
+constexpr int pwmResolution = 12;           // 12-bit resolution
+constexpr int maxBrightness = (1 << pwmResolution) - 1;  // 4095
+int brightness = 0;                         // current brightness
+int fadeAmount = 30;                        // step size (scaled for higher resolution)
 
 void setup() {
-  // put your setup code here, to run once:
+  analogWriteResolution(pwmResolution);     // set ESP32 PWM to 12-bit (0–4095)
   pinMode(ledPin, OUTPUT);
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
   analogWrite(ledPin, brightness);
-  brightness = brightness + fadeAmount;
-  if (brightness == 0 || brightness == 255) {
+
+  brightness += fadeAmount;
+
+  // Clamp to avoid LEDC overflow flicker at boundaries
+  if (brightness <= 0) {
+    brightness = 0;
+    fadeAmount = -fadeAmount;
+  } else if (brightness >= maxBrightness) {
+    brightness = maxBrightness;
     fadeAmount = -fadeAmount;
   }
-  delay(30);
-}
 
-// put function definitions here:
-int myFunction(int x, int y) {
-  return x + y;
+  delay(15);
 }
